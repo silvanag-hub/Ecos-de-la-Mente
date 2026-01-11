@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Diario de Emociones y Pensamientos - Ecos de la Mente</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%);
+            min-height: 100vh;
+            padding: 0;
+            margin: 0;
+        }
+
+        /* Estilos de la portada */
+        .cover-page {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(180deg, #d4e7ff 0%, #ffc9e8 50%, #e8d5ff 100%);
+            position: relative;
+            overflow: hidden;
+            padding: 20px;
+        }
+
+        .cover-waves {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 300px;
+            background: 
+                radial-gradient(ellipse 800px 100px at 20% 50px, rgba(255, 182, 193, 0.3), transparent),
+                radial-gradient(ellipse 700px 100px at 80% 100px, rgba(173, 216, 255, 0.3), transparent),
+                radial-gradient(ellipse 600px 100px at 50% 150px, rgba(255, 218, 185, 0.3), transparent);
+        }
+
+        .cover-content {
+            text-align: center;
+            z-index: 1;
+            position: relative;
+            max-width: 800px;
+            animation: fadeInScale 1.2s ease-out;
+        }
+
+        @keyframes fadeInScale {
+            from { 
+                opacity: 0; 
+                transform: scale(0.9) translateY(20px);
+            }
+            to { 
+                opacity: 1; 
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        .cover-title {
+            font-size: 3.5em;
+            color: #8b7ba8;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.1);
+            margin-bottom: 40px;
+            line-height: 1.3;
+            font-weight: 700;
+            letter-spacing: 2px;
+        }
+
+        .cover-icons {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin: 50px 0;
+            flex-wrap: wrap;
+        }
+
+        .icon-heart, .icon-thought, .icon-star {
+            font-size: 5em;
+            animation: float 3s ease-in-out infinite;
+            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2));
+        }
+
+        .icon-thought {
+            animation-delay: 0.5s;
+        }
+
+        .icon-star {
+            animation-delay: 1s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .cover-subtitle {
+            font-size: 2.5em;
+            color: #5a7fb8;
+            margin: 40px 0 20px 0;
+            font-weight: 700;
+            letter-spacing: 3px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .cover-tagline {
+            font-size: 1.4em;
+            color: #6b7ba8;
+            margin-bottom: 60px;
+            font-style: italic;
+        }
+
+        .btn-start {
+            padding: 20px 50px;
+            font-size: 1.4em;
+            border: none;
+            border-radius: 50px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            cursor: pointer;
+            font-weight: 700;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+            transition: all 0.3s ease;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .btn-start:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.6);
+            animation: none;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 20px auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        body.diary-started {
+            padding: 20px;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.95;
+        }
+
+        .intro {
+            background: linear-gradient(to right, #ffecd2 0%, #fcb69f 100%);
+            padding: 30px;
+            border-bottom: 3px solid #f09;
+        }
+
+        .intro-text {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .intro h2 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 1.5em;
+        }
+
+        .intro p {
+            color: #555;
+            line-height: 1.8;
+            font-size: 1.05em;
+        }
+
+        .form-section {
+            padding: 40px 30px;
+        }
+
+        .field-group {
+            margin-bottom: 30px;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .field-label {
+            display: block;
+            font-size: 1.3em;
+            color: #667eea;
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+
+        .field-input, .field-textarea {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 1em;
+            font-family: inherit;
+            transition: all 0.3s ease;
+            background: #fafafa;
+        }
+
+        .field-input:focus, .field-textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .field-textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        .emotions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 15px;
+        }
+
+        .emotion-item {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .emotion-label {
+            display: block;
+            font-weight: 600;
+            color: #555;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+
+        .emotion-slider {
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .emotion-value {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 1.1em;
+            margin-left: 10px;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 40px;
+            padding: 30px;
+            background: linear-gradient(to right, #ffecd2 0%, #fcb69f 100%);
+        }
+
+        .btn {
+            padding: 15px 35px;
+            font-size: 1.1em;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .btn-save {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-save:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-download {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+        }
+
+        .btn-download:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(245, 87, 108, 0.4);
+        }
+
+        .btn-clear {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+        }
+
+        .btn-clear:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(79, 172, 254, 0.4);
+        }
+
+        .saved-entries {
+            padding: 30px;
+            background: #f9f9f9;
+        }
+
+        .saved-entries h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+            text-align: center;
+        }
+
+        .entry-card {
+            background: white;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .entry-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+        }
+
+        .entry-date {
+            font-weight: bold;
+            color: #667eea;
+            font-size: 1.2em;
+            margin-bottom: 5px;
+        }
+
+        .entry-preview {
+            color: #666;
+            font-size: 0.95em;
+        }
+
+        .no-entries {
+            text-align: center;
+            color: #999;
+            padding: 40px;
+            font-size: 1.1em;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.8em;
+            }
+            
+            .emotions-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .buttons {
+                flex-direction: column;
+            }
+            
+            .btn {
+                width: 100%;
+            }
+
+            .cover-title {
+                font-size: 2em;
+            }
+
+            .cover-subtitle {
+                font-size: 1.8em;
+            }
+
+            .cover-tagline {
+                font-size: 1.1em;
+            }
+
+            .cover-icons {
+                gap: 20px;
+            }
+
+            .icon-heart, .icon-thought, .icon-star {
+                font-size: 3.5em;
+            }
+
+            .btn-start {
+                padding: 15px 35px;
+                font-size: 1.2em;
+            }
+        }
+
+        .decorative-flowers {
+            position: relative;
+            padding: 20px;
+        }
+
+        .decorative-flowers::before,
+        .decorative-flowers::after {
+            content: '🌸';
+            position: absolute;
+            font-size: 2em;
+            opacity: 0.3;
+        }
+
+        .decorative-flowers::before {
+            top: 10px;
+            left: 10px;
+        }
+
+        .decorative-flowers::after {
+            bottom: 10px;
+            right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Portada -->
+    <div class="cover-page" id="coverPage">
+        <div class="cover-content">
+            <div class="cover-waves"></div>
+            <h1 class="cover-title">MI DIARIO DE EMOCIONES<br>Y PENSAMIENTOS.</h1>
+            <div class="cover-icons">
+                <div class="icon-heart">💗</div>
+                <div class="icon-thought">💭</div>
+                <div class="icon-star">✨</div>
+            </div>
+            <h2 class="cover-subtitle">ECOS DE LA MENTE</h2>
+            <p class="cover-tagline">Un viaje a través de las emociones y los pensamientos</p>
+            <button class="btn-start" onclick="iniciarDiario()">✨ Comenzar mi Diario ✨</button>
+        </div>
+    </div>
+
+    <div class="container" id="mainContent" style="display: none;">
+        <div class="header">
+            <h1>🌸 MI DIARIO DE EMOCIONES Y PENSAMIENTOS 🌸</h1>
+            <p>ECOS DE LA MENTE</p>
+            <p style="font-size: 0.9em; margin-top: 10px;">Un viaje a través de las emociones y los pensamientos</p>
+        </div>
+
+        <div class="intro">
+            <div class="intro-text">
+                <h2>📝 Bienvenida a tu espacio personal</h2>
+                <p>Este diario está diseñado para ayudarte a comprender mejor tus patrones de pensamiento y emocionales. Por favor, dedica unos minutos cada día a registrar tus experiencias, pensamientos y sentimientos. No te preocupes por la gramática o la perfección; lo importante es ser honesta contigo misma.</p>
+            </div>
+        </div>
+
+        <form id="diarioForm" class="form-section decorative-flowers">
+            <div class="field-group">
+                <label class="field-label">👤 Nombre:</label>
+                <input type="text" id="nombre" class="field-input" placeholder="Escribe tu nombre aquí...">
+            </div>
+
+            <div class="field-group">
+                <label class="field-label">📅 Fecha:</label>
+                <input type="date" id="fecha" class="field-input">
+            </div>
+
+            <div class="field-group">
+                <label class="field-label">📍 Situación: ¿Qué estaba pasando? ¿Dónde estabas? ¿Con quién estabas?</label>
+                <textarea id="situacion" class="field-textarea" placeholder="Describe la situación que viviste..."></textarea>
+            </div>
+
+            <div class="field-group">
+                <label class="field-label">💭 Pensamientos: ¿Qué estabas pensando en ese momento?</label>
+                <textarea id="pensamientos" class="field-textarea" placeholder="Comparte tus pensamientos..."></textarea>
+            </div>
+
+            <div class="field-group">
+                <label class="field-label">💗 Emociones: ¿Qué estabas sintiendo?</label>
+                <p style="color: #666; margin-bottom: 20px; font-style: italic;">Califica la intensidad de cada emoción del 0 al 10:</p>
+                
+                <div class="emotions-grid">
+                    <div class="emotion-item">
+                        <label class="emotion-label">😰 Ansiedad: <span class="emotion-value" id="ansiedadValue">0</span>/10</label>
+                        <input type="range" id="ansiedad" class="emotion-slider" min="0" max="10" value="0">
+                    </div>
+                    
+                    <div class="emotion-item">
+                        <label class="emotion-label">😨 Miedo: <span class="emotion-value" id="miedoValue">0</span>/10</label>
+                        <input type="range" id="miedo" class="emotion-slider" min="0" max="10" value="0">
+                    </div>
+                    
+                    <div class="emotion-item">
+                        <label class="emotion-label">😢 Tristeza: <span class="emotion-value" id="tristezaValue">0</span>/10</label>
+                        <input type="range" id="tristeza" class="emotion-slider" min="0" max="10" value="0">
+                    </div>
+                    
+                    <div class="emotion-item">
+                        <label class="emotion-label">😠 Ira: <span class="emotion-value" id="iraValue">0</span>/10</label>
+                        <input type="range" id="ira" class="emotion-slider" min="0" max="10" value="0">
+                    </div>
+                    
+                    <div class="emotion-item">
+                        <label class="emotion-label">😔 Soledad: <span class="emotion-value" id="soledadValue">0</span>/10</label>
+                        <input type="range" id="soledad" class="emotion-slider" min="0" max="10" value="0">
+                    </div>
+                    
+                    <div class="emotion-item">
+                        <label class="emotion-label">😞 Culpa: <span class="emotion-value" id="culpaValue">0</span>/10</label>
+                        <input type="range" id="culpa" class="emotion-slider" min="0" max="10" value="0">
+                    </div>
+                </div>
+            </div>
+
+            <div class="field-group">
+                <label class="field-label">✨ Otras emociones:</label>
+                <input type="text" id="otrasEmociones" class="field-input" placeholder="¿Hay otras emociones que quieras mencionar?">
+                <input type="range" id="otrasEmocionesIntensidad" class="emotion-slider" min="0" max="10" value="0" style="margin-top: 10px;">
+                <span class="emotion-value" id="otrasEmocionesValue" style="display: block; margin-top: 10px;">0/10</span>
+            </div>
+
+            <div class="field-group">
+                <label class="field-label">🫀 Sensaciones Físicas:</label>
+                <textarea id="sensaciones" class="field-textarea" placeholder="¿Qué sentiste en tu cuerpo? (tensión, dolor, calor, frío, etc.)"></textarea>
+            </div>
+
+            <div class="field-group">
+                <label class="field-label">🎭 Comportamientos: ¿Qué hiciste? ¿Cómo reaccionaste?</label>
+                <textarea id="comportamientos" class="field-textarea" placeholder="Describe cómo actuaste en esa situación..."></textarea>
+            </div>
+
+            <div class="field-group">
+                <label class="field-label">⏭️ Consecuencias: ¿Qué pasó después?</label>
+                <textarea id="consecuencias" class="field-textarea" placeholder="¿Cuáles fueron los resultados de tus acciones?"></textarea>
+            </div>
+
+            <div class="field-group">
+                <label class="field-label">🧠 Análisis: ¿Qué aprendiste de esta situación? ¿Cómo podrías haber reaccionado de manera diferente?</label>
+                <textarea id="analisis" class="field-textarea" placeholder="Reflexiona sobre lo sucedido..."></textarea>
+            </div>
+
+            <div class="field-group">
+                <label class="field-label">🌟 Acciones Alternativas: ¿Qué estrategias podrías usar la próxima vez?</label>
+                <textarea id="acciones" class="field-textarea" placeholder="Piensa en alternativas para el futuro..."></textarea>
+            </div>
+        </form>
+
+        <div class="buttons">
+            <button type="button" class="btn btn-save" onclick="guardarEntrada()">💾 Guardar Entrada</button>
+            <button type="button" class="btn btn-download" onclick="descargarPDF()">📥 Descargar PDF</button>
+            <button type="button" class="btn btn-clear" onclick="limpiarFormulario()">🔄 Nueva Entrada</button>
+        </div>
+
+        <div class="saved-entries">
+            <h3>📚 Entradas Guardadas</h3>
+            <div id="entradasGuardadas" class="no-entries">
+                No hay entradas guardadas aún. ¡Comienza escribiendo tu primera entrada!
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Función para iniciar el diario desde la portada
+        function iniciarDiario() {
+            document.getElementById('coverPage').style.display = 'none';
+            document.getElementById('mainContent').style.display = 'block';
+            document.body.classList.add('diary-started');
+            window.scrollTo(0, 0);
+        }
+
+        // Inicializar fecha actual
+        document.getElementById('fecha').valueAsDate = new Date();
+
+        // Actualizar valores de los sliders
+        const sliders = ['ansiedad', 'miedo', 'tristeza', 'ira', 'soledad', 'culpa', 'otrasEmocionesIntensidad'];
+        sliders.forEach(slider => {
+            const element = document.getElementById(slider);
+            const valueElement = document.getElementById(slider + 'Value');
+            
+            element.addEventListener('input', function() {
+                if (valueElement) {
+                    valueElement.textContent = this.value;
+                }
+            });
+        });
+
+        // Cargar entradas guardadas al iniciar
+        window.onload = function() {
+            cargarEntradas();
+        };
+
+        function guardarEntrada() {
+            const entrada = {
+                id: Date.now(),
+                nombre: document.getElementById('nombre').value,
+                fecha: document.getElementById('fecha').value,
+                situacion: document.getElementById('situacion').value,
+                pensamientos: document.getElementById('pensamientos').value,
+                emociones: {
+                    ansiedad: document.getElementById('ansiedad').value,
+                    miedo: document.getElementById('miedo').value,
+                    tristeza: document.getElementById('tristeza').value,
+                    ira: document.getElementById('ira').value,
+                    soledad: document.getElementById('soledad').value,
+                    culpa: document.getElementById('culpa').value,
+                    otras: document.getElementById('otrasEmociones').value,
+                    otrasIntensidad: document.getElementById('otrasEmocionesIntensidad').value
+                },
+                sensaciones: document.getElementById('sensaciones').value,
+                comportamientos: document.getElementById('comportamientos').value,
+                consecuencias: document.getElementById('consecuencias').value,
+                analisis: document.getElementById('analisis').value,
+                acciones: document.getElementById('acciones').value
+            };
+
+            // Validar que al menos algunos campos estén completos
+            if (!entrada.fecha || (!entrada.situacion && !entrada.pensamientos)) {
+                alert('Por favor completa al menos la fecha y la situación o pensamientos.');
+                return;
+            }
+
+            // Guardar en localStorage
+            let entradas = JSON.parse(localStorage.getItem('entradasDiario') || '[]');
+            entradas.push(entrada);
+            localStorage.setItem('entradasDiario', JSON.stringify(entradas));
+
+            alert('✅ Entrada guardada exitosamente!');
+            cargarEntradas();
+            limpiarFormulario();
+        }
+
+        function cargarEntradas() {
+            const entradas = JSON.parse(localStorage.getItem('entradasDiario') || '[]');
+            const contenedor = document.getElementById('entradasGuardadas');
+
+            if (entradas.length === 0) {
+                contenedor.className = 'no-entries';
+                contenedor.innerHTML = 'No hay entradas guardadas aún. ¡Comienza escribiendo tu primera entrada!';
+                return;
+            }
+
+            contenedor.className = '';
+            contenedor.innerHTML = '';
+
+            entradas.sort((a, b) => b.id - a.id).forEach(entrada => {
+                const card = document.createElement('div');
+                card.className = 'entry-card';
+                card.onclick = () => cargarEntrada(entrada);
+
+                const fecha = new Date(entrada.fecha + 'T00:00:00').toLocaleDateString('es-ES', {
+                    weekday: 'long',
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                });
+
+                card.innerHTML = `
+                    <div class="entry-date">${fecha}</div>
+                    <div class="entry-preview">
+                        ${entrada.nombre ? `👤 ${entrada.nombre} - ` : ''}
+                        ${entrada.situacion ? entrada.situacion.substring(0, 100) + '...' : 'Sin descripción'}
+                    </div>
+                `;
+
+                contenedor.appendChild(card);
+            });
+        }
+
+        function cargarEntrada(entrada) {
+            if (!confirm('¿Quieres cargar esta entrada? Se reemplazará el contenido actual del formulario.')) {
+                return;
+            }
+
+            document.getElementById('nombre').value = entrada.nombre || '';
+            document.getElementById('fecha').value = entrada.fecha || '';
+            document.getElementById('situacion').value = entrada.situacion || '';
+            document.getElementById('pensamientos').value = entrada.pensamientos || '';
+            
+            // Cargar emociones
+            document.getElementById('ansiedad').value = entrada.emociones.ansiedad || 0;
+            document.getElementById('ansiedadValue').textContent = entrada.emociones.ansiedad || 0;
+            
+            document.getElementById('miedo').value = entrada.emociones.miedo || 0;
+            document.getElementById('miedoValue').textContent = entrada.emociones.miedo || 0;
+            
+            document.getElementById('tristeza').value = entrada.emociones.tristeza || 0;
+            document.getElementById('tristezaValue').textContent = entrada.emociones.tristeza || 0;
+            
+            document.getElementById('ira').value = entrada.emociones.ira || 0;
+            document.getElementById('iraValue').textContent = entrada.emociones.ira || 0;
+            
+            document.getElementById('soledad').value = entrada.emociones.soledad || 0;
+            document.getElementById('soledadValue').textContent = entrada.emociones.soledad || 0;
+            
+            document.getElementById('culpa').value = entrada.emociones.culpa || 0;
+            document.getElementById('culpaValue').textContent = entrada.emociones.culpa || 0;
+            
+            document.getElementById('otrasEmociones').value = entrada.emociones.otras || '';
+            document.getElementById('otrasEmocionesIntensidad').value = entrada.emociones.otrasIntensidad || 0;
+            document.getElementById('otrasEmocionesValue').textContent = entrada.emociones.otrasIntensidad || 0;
+            
+            document.getElementById('sensaciones').value = entrada.sensaciones || '';
+            document.getElementById('comportamientos').value = entrada.comportamientos || '';
+            document.getElementById('consecuencias').value = entrada.consecuencias || '';
+            document.getElementById('analisis').value = entrada.analisis || '';
+            document.getElementById('acciones').value = entrada.acciones || '';
+
+            // Scroll al inicio del formulario
+            document.querySelector('.form-section').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function limpiarFormulario() {
+            if (document.getElementById('situacion').value || document.getElementById('pensamientos').value) {
+                if (!confirm('¿Estás segura de que quieres limpiar el formulario? Se perderá todo el contenido no guardado.')) {
+                    return;
+                }
+            }
+
+            document.getElementById('diarioForm').reset();
+            document.getElementById('fecha').valueAsDate = new Date();
+            
+            // Resetear valores de emociones
+            sliders.forEach(slider => {
+                const valueElement = document.getElementById(slider + 'Value');
+                if (valueElement) {
+                    valueElement.textContent = '0';
+                }
+            });
+        }
+
+        function descargarPDF() {
+            // Crear contenido del PDF
+            const nombre = document.getElementById('nombre').value || 'Sin nombre';
+            const fecha = document.getElementById('fecha').value || 'Sin fecha';
+            const situacion = document.getElementById('situacion').value || 'No especificado';
+            const pensamientos = document.getElementById('pensamientos').value || 'No especificado';
+            
+            const emociones = `
+Ansiedad: ${document.getElementById('ansiedad').value}/10
+Miedo: ${document.getElementById('miedo').value}/10
+Tristeza: ${document.getElementById('tristeza').value}/10
+Ira: ${document.getElementById('ira').value}/10
+Soledad: ${document.getElementById('soledad').value}/10
+Culpa: ${document.getElementById('culpa').value}/10
+Otras emociones: ${document.getElementById('otrasEmociones').value || 'Ninguna'} (${document.getElementById('otrasEmocionesIntensidad').value}/10)
+            `;
+
+            const sensaciones = document.getElementById('sensaciones').value || 'No especificado';
+            const comportamientos = document.getElementById('comportamientos').value || 'No especificado';
+            const consecuencias = document.getElementById('consecuencias').value || 'No especificado';
+            const analisis = document.getElementById('analisis').value || 'No especificado';
+            const acciones = document.getElementById('acciones').value || 'No especificado';
+
+            const contenido = `
+MI DIARIO DE EMOCIONES Y PENSAMIENTOS
+ECOS DE LA MENTE
+Un viaje a través de las emociones y los pensamientos
+
+===============================================
+
+NOMBRE: ${nombre}
+FECHA: ${new Date(fecha + 'T00:00:00').toLocaleDateString('es-ES', {
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+})}
+
+===============================================
+
+SITUACIÓN:
+¿Qué estaba pasando? ¿Dónde estabas? ¿Con quién estabas?
+
+${situacion}
+
+===============================================
+
+PENSAMIENTOS:
+¿Qué estabas pensando en ese momento?
+
+${pensamientos}
+
+===============================================
+
+EMOCIONES:
+¿Qué estabas sintiendo?
+
+${emociones}
+
+===============================================
+
+SENSACIONES FÍSICAS:
+
+${sensaciones}
+
+===============================================
+
+COMPORTAMIENTOS:
+¿Qué hiciste? ¿Cómo reaccionaste?
+
+${comportamientos}
+
+===============================================
+
+CONSECUENCIAS:
+¿Qué pasó después?
+
+${consecuencias}
+
+===============================================
+
+ANÁLISIS:
+¿Qué aprendiste de esta situación? ¿Cómo podrías haber reaccionado de manera diferente?
+
+${analisis}
+
+===============================================
+
+ACCIONES ALTERNATIVAS:
+¿Qué estrategias podrías usar la próxima vez?
+
+${acciones}
+
+===============================================
+
+Generado desde: Mi Diario de Emociones y Pensamientos
+            `;
+
+            // Crear y descargar archivo
+            const blob = new Blob([contenido], { type: 'text/plain;charset=utf-8' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `Diario_${fecha}_${nombre.replace(/\s/g, '_')}.txt`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+
+            alert('📥 Descarga iniciada! Tu entrada se ha guardado como archivo de texto.');
+        }
+    </script>
+</body>
+</html>
